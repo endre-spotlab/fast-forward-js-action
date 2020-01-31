@@ -23,5 +23,4 @@ Fast Forwards pull request base branch (target branch) reference to the head bra
 
 ## Example usage
 
-
 See in .github/workflows/
