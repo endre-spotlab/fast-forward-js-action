@@ -21,7 +21,7 @@ The aim is to keep both branches the same after the fast forward, keeping a line
 
 ![](ff-success-video.gif)
 
-- Comment ```/fast-forward´´´ in a pull request.
+- Comment ```/fast-forward``` in a pull request.
 - Wait for the action to execute (~10 seconds)
 
 To set-up this GitHub action in your repository, check out the example workflow description file in .github/workflows/
