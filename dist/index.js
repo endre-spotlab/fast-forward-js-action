@@ -47,7 +47,7 @@ var core = __importStar(require("@actions/core"));
 var github = __importStar(require("@actions/github"));
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var inValue, time, contextPayload;
+        var inValue, time, context, github_token, octokit_restClient;
         return __generator(this, function (_a) {
             try {
                 inValue = core.getInput('in-value');
@@ -55,8 +55,25 @@ function run() {
                 time = (new Date()).toTimeString();
                 core.info(time);
                 core.setOutput('out-value', time);
-                contextPayload = JSON.stringify(github.context.payload, undefined, 2);
-                core.info(contextPayload);
+                context = github.context;
+                //const contextPayloadJSON = JSON.stringify(context.payload, undefined, 2);
+                //core.info(contextPayloadJSON);
+                if (context.payload.pull_request == null) {
+                    core.setFailed('No pull request found.');
+                    return [2 /*return*/];
+                }
+                github_token = core.getInput('GITHUB_TOKEN');
+                octokit_restClient = new github.GitHub(github_token);
+                core.info('\nOwner: ' + context.repo.owner +
+                    '\nRepo: ' + context.repo.repo +
+                    '\nIssue_number: ' + context.payload.pull_request.number);
+                octokit_restClient.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.payload.pull_request.number,
+                    body: "Fast Forward action executed!"
+                });
+                core.info('Comment request sent!');
             }
             catch (error) {
                 core.error(error.message);
