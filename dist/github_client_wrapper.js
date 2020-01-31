@@ -72,15 +72,12 @@ var GitHubClientWrapper = /** @class */ (function () {
     ;
     GitHubClientWrapper.prototype.fast_forward_target_to_source_async = function (pr_number) {
         return __awaiter(this, void 0, void 0, function () {
-            var pullRequestData, error_1;
+            var pullRequestData;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.get_pull_request(pr_number)];
                     case 1:
                         pullRequestData = _a.sent();
-                        _a.label = 2;
-                    case 2:
-                        _a.trys.push([2, 4, , 5]);
                         return [4 /*yield*/, this.restClient.git.updateRef({
                                 owner: this.owner,
                                 repo: this.repo,
@@ -88,14 +85,8 @@ var GitHubClientWrapper = /** @class */ (function () {
                                 sha: "" + pullRequestData.head.sha,
                                 force: false
                             })];
-                    case 3:
+                    case 2:
                         _a.sent();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        error_1 = _a.sent();
-                        throw new Error(error_1.message);
-                    case 5:
-                        ;
                         return [2 /*return*/];
                 }
             });

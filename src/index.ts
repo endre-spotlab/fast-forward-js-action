@@ -11,7 +11,7 @@ async function newRun(): Promise<void>{
 
   const client = new GitHubClientWrapper(github.context , github_token);
   const fastForward = new FastForwardAction(client);
-  fastForward.execute(client, success_message, failure_message, close_pr);
+  await fastForward.execute(client, success_message, failure_message, close_pr);
 }
 
 

@@ -43,39 +43,37 @@ var FastForwardAction = /** @class */ (function () {
     }
     ;
     FastForwardAction.prototype.execute = function (client, successMessage, failureMessage, closePRWhenFailed) {
-        var _this = this;
-        var pr_number = client.get_current_pull_request_number();
-        try {
-            (function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            var pr_number, error_1;
+            return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0:
+                        pr_number = client.get_current_pull_request_number();
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 7]);
+                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 7];
+                    case 3:
+                        error_1 = _a.sent();
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, failureMessage)];
+                    case 4:
+                        _a.sent();
+                        if (!closePRWhenFailed) return [3 /*break*/, 6];
+                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
+                    case 5:
+                        _a.sent();
+                        _a.label = 6;
+                    case 6: return [2 /*return*/];
+                    case 7: return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, successMessage)];
+                    case 8:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
-            }); }); })();
-        }
-        catch (error) {
-            (function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, failureMessage)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            }); }); })();
-            if (closePRWhenFailed) {
-                (function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, client.close_pull_request_async(pr_number)];
-                        case 1: return [2 /*return*/, _a.sent()];
-                    }
-                }); }); })();
-            }
-            return;
-        }
-        (function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, successMessage)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); }); })();
+            });
+        });
     };
     return FastForwardAction;
 }());

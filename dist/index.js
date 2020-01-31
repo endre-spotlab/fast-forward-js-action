@@ -51,14 +51,19 @@ function newRun() {
     return __awaiter(this, void 0, void 0, function () {
         var close_pr, github_token, success_message, failure_message, client, fastForward;
         return __generator(this, function (_a) {
-            close_pr = (core.getInput('close_pr') === 'true');
-            github_token = core.getInput('GITHUB_TOKEN');
-            success_message = core.getInput('success_message');
-            failure_message = core.getInput('failure_message');
-            client = new github_client_wrapper_1.GitHubClientWrapper(github.context, github_token);
-            fastForward = new fast_forward_action_1.FastForwardAction(client);
-            fastForward.execute(client, success_message, failure_message, close_pr);
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    close_pr = (core.getInput('close_pr') === 'true');
+                    github_token = core.getInput('GITHUB_TOKEN');
+                    success_message = core.getInput('success_message');
+                    failure_message = core.getInput('failure_message');
+                    client = new github_client_wrapper_1.GitHubClientWrapper(github.context, github_token);
+                    fastForward = new fast_forward_action_1.FastForwardAction(client);
+                    return [4 /*yield*/, fastForward.execute(client, success_message, failure_message, close_pr)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
     });
 }

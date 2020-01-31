@@ -34,18 +34,14 @@ export class GitHubClientWrapper implements GitHubClient{
   
   async fast_forward_target_to_source_async(pr_number: number): Promise<void> {
     const pullRequestData =  await this.get_pull_request(pr_number);
-
-    try{
-        await this.restClient.git.updateRef({
-        owner: this.owner,
-        repo: this.repo,
-        ref: `heads/${pullRequestData.base.ref}`,
-        sha: `${pullRequestData.head.sha}`,
-        force: false
-      });
-    } catch(error){
-      throw new Error(error.message);
-    };
+    
+    await this.restClient.git.updateRef({
+      owner: this.owner,
+      repo: this.repo,
+      ref: `heads/${pullRequestData.base.ref}`,
+      sha: `${pullRequestData.head.sha}`,
+      force: false
+    });
 
   };
 
