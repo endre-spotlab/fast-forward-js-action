@@ -18,6 +18,10 @@ jobs:
         with:
           in-value: 'Endre Input Value'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          success_message: 'Success! Fast Forward action executed!'
+          failure_message: 'Failed!  Cannot do a fast forward! For this example, you would check out the experiment branch, and then rebase it onto the master branch as follows: \n1) Pleasy try to checkout head (source) branch, and then rebase it onto base (target) branch, and recreate the Pull Request. \n2) Or merge using _Merge pull request_ button. Then delete head (source) branch, and recreate from merged base (target) branch.'
+          close_pr: 'true'
+
       # Use the output from the previous step
       - name: Get the output time
         run: echo "The time was ${{ steps.ff-action.outputs.out-value }}"
