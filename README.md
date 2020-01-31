@@ -2,6 +2,12 @@
 
 'Fast Forward pull reaquest base (target) branch reference to head (source)'
 
+## How to modify
+
+Change source code in src/
+Compile ts to js ```tsc --build tsconfig.json````
+Commit changes
+
 ## Inputs
 
 ### `who-to-greet`
