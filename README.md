@@ -1,6 +1,7 @@
 # Fast Forward javascript action
 
-Fast Forwards pull request base branch (target branch) reference to the head branch (source branch), if possible. The action also comments a success or failure messages on the pull request issue.
+Fast Forwards pull request base branch (target branch) reference to the head branch (source branch), if possible. 
+The action also comments a success or failure messages on the pull request issue.
 
 ```git checkout target_base && git merge source_head --ff-only```
 
