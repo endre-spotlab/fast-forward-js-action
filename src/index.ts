@@ -49,12 +49,15 @@ async function run(): Promise<void>{
         force: false
       });
     } catch(error){
-      if (error.message.contains("Update is not a fast forward")){
+      if ((error.message as string).includes("Update is not a fast forward")) {
         await octokit_restClient.issues.createComment({
           owner: context.repo.owner,
           repo: context.repo.repo,
           issue_number: context.payload.issue.number,
-          body: "Failed, update is not a fast forward! Please merge using 'Merge pull request' button. Then delete head (source) branch, and recreatet from base (target) branch."
+          body: "Failed, update is not a fast forward!" + 
+          //For this example, you would check out the experiment branch, and then rebase it onto the master branch as follows:
+          "\n1) Pleasy try to checkout head (source) branch, and then rebase it onto base (target) branch, and redo the PR." + 
+          "\n2) Or merge using 'Merge pull request' button. Then delete head (source) branch, and recreate from merged base (target) branch."
         });
         return;
       } 
