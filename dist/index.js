@@ -58,7 +58,7 @@ function run() {
                 context = github.context;
                 //const contextPayloadJSON = JSON.stringify(context.payload, undefined, 2);
                 //core.info(contextPayloadJSON);
-                if (context.payload.pull_request == null) {
+                if (!context.payload.issue || !context.payload.issue.pull_request) {
                     core.setFailed('No pull request found.');
                     return [2 /*return*/];
                 }
@@ -66,11 +66,11 @@ function run() {
                 octokit_restClient = new github.GitHub(github_token);
                 core.info('\nOwner: ' + context.repo.owner +
                     '\nRepo: ' + context.repo.repo +
-                    '\nIssue_number: ' + context.payload.pull_request.number);
+                    '\nIssue_number: ' + context.payload.issue.number);
                 octokit_restClient.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    issue_number: context.payload.pull_request.number,
+                    issue_number: context.payload.issue.number,
                     body: "Fast Forward action executed!"
                 });
                 core.info('Comment request sent!');

@@ -14,7 +14,7 @@ async function run(): Promise<void>{
     //const contextPayloadJSON = JSON.stringify(context.payload, undefined, 2);
     //core.info(contextPayloadJSON);
 
-    if (context.payload.pull_request == null){
+    if (!context.payload.issue || !context.payload.issue.pull_request){
       core.setFailed('No pull request found.')
       return;
     }
@@ -24,12 +24,12 @@ async function run(): Promise<void>{
 
     core.info('\nOwner: '  + context.repo.owner + 
               '\nRepo: ' + context.repo.repo + 
-              '\nIssue_number: ' + context.payload.pull_request.number
+              '\nIssue_number: ' + context.payload.issue.number
       );
     octokit_restClient.issues.createComment({
       owner: context.repo.owner,
       repo: context.repo.repo,
-      issue_number: context.payload.pull_request.number,
+      issue_number: context.payload.issue.number,
       body: "Fast Forward action executed!"
     });
     core.info('Comment request sent!');
