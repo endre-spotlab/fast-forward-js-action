@@ -1,5 +1,5 @@
 name: 'Fast Forward'
-description: 'Fast Forward pull reaquest base (target) branch reference to head (source)'
+description: 'Fast Forwards the pull request's base branch (target branch) reference to the head branch (source branch) latest commit, if possible'
 inputs:
   in-value:
     description: 'in value'

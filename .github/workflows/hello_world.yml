@@ -1,12 +1,12 @@
 on: 
-  pull_request:
-    branches:
-      - master
-      
+  issue_comment:
+    types: [created]
+
 jobs:
-  example_job:
+  fast_forward_job:
+    name: Fast Forward
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/fast-forward')   
     runs-on: ubuntu-latest
-    name: Hello World
     steps:
       # To use this repository's private action, you must check out the repository
       - name: Checkout
