@@ -18,8 +18,8 @@ jobs:
         with:
           in-value: 'Endre Input Value'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          success_message: 'Success! Fast forwarded ***(target_base)*** to ***(source_head)***! ```git checkout ***(target_base)*** && git merge ***(source_head)*** --ff-only``` '
-          failure_message: 'Failed!  Cannot do a fast forward! 1) Please try to checkout ***(source_head)*** branch, and then rebase it onto ***(target_base)*** branch. ```git checkout ***(source_head)*** && git rebase ***(target_base)***```. Then recreate the Pull Request. 2) Or merge using _Merge pull request_ button. Then delete ***(source_head)*** branch, and recreate from merged ***(target_base)*** branch.'
+          success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout ***target_base*** && git merge ***source_head*** --ff-only``` '
+          failure_message: 'Failed!  Cannot do a fast forward ***target_base*** to ***source_head***! 1) Please try to ```git checkout source_head && git rebase target_base```. Then recreate the Pull Request. 2) Or merge using _Merge pull request_ button. Then delete ***source_head*** branch, and recreate from merged ***target_base*** branch.'
           close_pr: 'false'
 
       # Use the output from the previous step

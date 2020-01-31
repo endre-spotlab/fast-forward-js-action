@@ -29,7 +29,7 @@ export class FastForwardAction{
   }
 
   insert_branch_names(message: string, source: string, target: string): string{
-    return message.replace(/(source_head)/g, source).replace(/(target_base)/g, target);
+    return message.replace(/source_head/g, source).replace(/target_base/g, target);
   }
 
 };

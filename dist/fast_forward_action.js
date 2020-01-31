@@ -85,7 +85,7 @@ var FastForwardAction = /** @class */ (function () {
         });
     };
     FastForwardAction.prototype.insert_branch_names = function (message, source, target) {
-        return message.replace(/(source_head)/g, source).replace(/(target_base)/g, target);
+        return message.replace(/source_head/g, source).replace(/target_base/g, target);
     };
     return FastForwardAction;
 }());
