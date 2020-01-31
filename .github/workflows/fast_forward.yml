@@ -8,13 +8,10 @@ jobs:
     if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/fast-forward')   
     runs-on: ubuntu-latest
     steps:
-      # To use this repository's private action, you must check out the repository
-      - name: Checkout
-        uses: actions/checkout@v2
       # Run the example action
       - name: Fast Forward action
         id: ff-action
-        uses: ./
+        uses:  endre-spotlab/fast-forward-js-action@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
