@@ -1,0 +1,19 @@
+on: [push]
+
+jobs:
+  example_job:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      # To use this repository's private action, you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Run the example action
+      - name: Fast Forward action
+        id: ff-action
+        uses: ./
+        with:
+          in-value: 'Endre Input Value'
+      # Use the output from the previous step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.ff-actions.outputs.out-value }}"
