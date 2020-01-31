@@ -47,11 +47,11 @@ var core = __importStar(require("@actions/core"));
 var github = __importStar(require("@actions/github"));
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var inValue, time, context, contextPayloadJson, github_token, octokit_restClient, pr, prJson, refFQ, updateRef, updateRefJson, newComment, newCommentJson, error_1;
+        var inValue, time, context, contextPayloadJson, github_token, octokit_restClient, pr, prJson, refFQ, updateRef, error_1, updateRefJson, newComment, newCommentJson, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 4, , 5]);
+                    _a.trys.push([0, 10, , 11]);
                     core.info("*** MY INFO LOGS *** Input-Output");
                     inValue = core.getInput('in-value');
                     core.info(inValue);
@@ -82,6 +82,10 @@ function run() {
                     core.info("*** MY INFO LOGS *** Update Ref Request");
                     core.info("\nRef: " + refFQ +
                         "\nSha: " + pr.data.head.sha);
+                    updateRef = void 0;
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 4, , 8]);
                     return [4 /*yield*/, octokit_restClient.git.updateRef({
                             owner: context.repo.owner,
                             repo: context.repo.repo,
@@ -89,8 +93,26 @@ function run() {
                             sha: pr.data.head.sha,
                             force: false
                         })];
-                case 2:
+                case 3:
                     updateRef = _a.sent();
+                    return [3 /*break*/, 8];
+                case 4:
+                    error_1 = _a.sent();
+                    if (!error_1.message.contains("Update is not a fast forward")) return [3 /*break*/, 6];
+                    return [4 /*yield*/, octokit_restClient.issues.createComment({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            issue_number: context.payload.issue.number,
+                            body: "Failed, update is not a fast forward! Please merge using 'Merge pull request' button. Then delete head (source) branch, and recreatet from base (target) branch."
+                        })];
+                case 5:
+                    _a.sent();
+                    return [2 /*return*/];
+                case 6:
+                    core.setFailed(error_1.message);
+                    return [2 /*return*/];
+                case 7: return [3 /*break*/, 8];
+                case 8:
                     core.info("*** MY INFO LOGS *** Update Ref Response");
                     updateRefJson = JSON.stringify(updateRef.data, undefined, 2);
                     core.info(updateRefJson);
@@ -100,17 +122,17 @@ function run() {
                             issue_number: context.payload.issue.number,
                             body: "Fast Forward action executed!"
                         })];
-                case 3:
+                case 9:
                     newComment = _a.sent();
                     core.info("*** MY INFO LOGS *** Create Comment Response");
                     newCommentJson = JSON.stringify(newComment.data, undefined, 2);
                     core.info(newCommentJson);
-                    return [3 /*break*/, 5];
-                case 4:
-                    error_1 = _a.sent();
-                    core.error(error_1.message);
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                    return [3 /*break*/, 11];
+                case 10:
+                    error_2 = _a.sent();
+                    core.error(error_2.message);
+                    return [3 /*break*/, 11];
+                case 11: return [2 /*return*/];
             }
         });
     });

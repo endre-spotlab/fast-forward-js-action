@@ -39,13 +39,31 @@ async function run(): Promise<void>{
     core.info("\nRef: " + refFQ + 
               "\nSha: " + pr.data.head.sha
     );
-    const updateRef = await octokit_restClient.git.updateRef({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      ref: refFQ,
-      sha: pr.data.head.sha,
-      force: false
-    });
+    let updateRef;
+    try {
+      updateRef = await octokit_restClient.git.updateRef({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        ref: refFQ,
+        sha: pr.data.head.sha,
+        force: false
+      });
+    } catch(error){
+      if (error.message.contains("Update is not a fast forward")){
+        await octokit_restClient.issues.createComment({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: context.payload.issue.number,
+          body: "Failed, update is not a fast forward! Please merge using 'Merge pull request' button. Then delete head (source) branch, and recreatet from base (target) branch."
+        });
+        return;
+      } 
+      else {
+        core.setFailed(error.message);
+        return;
+      }
+    }
+
     core.info("*** MY INFO LOGS *** Update Ref Response")
     const updateRefJson = JSON.stringify(updateRef.data, undefined, 2);
     core.info(updateRefJson);
