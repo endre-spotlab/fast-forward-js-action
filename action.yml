@@ -1,5 +1,5 @@
 name: 'Fast Forward'
-description: 'Fast Forwards the pull request base branch (target branch) reference to the head branch (source branch), if possible. The action also comments a success or failure messages on the pull request issue.'
+description: 'Fast Forwards the pull request base branch (target branch) to head branch (source branch), if possible. Comments a success or failure messages on the pull request issue. The aim is to keep both branches the same after the fast forward, keeping a linear history.'
 inputs:
   GITHUB_TOKEN:
     description: 'Automatically provided token, that can be used to authenticate on behalf of the GitHub action, with permissions limited to the repository that contains your workflow'
