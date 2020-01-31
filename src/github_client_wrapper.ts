@@ -23,7 +23,7 @@ export class GitHubClientWrapper implements GitHubClient{
     return this.context.payload.issue.number;
   };
 
-  async comment_on_pull_request(pr_number: number, comment: string): Promise<void> {
+  async comment_on_pull_request_async(pr_number: number, comment: string): Promise<void> {
     await this.restClient.issues.createComment({
       owner: this.owner,
       repo: this.repo,
@@ -32,7 +32,7 @@ export class GitHubClientWrapper implements GitHubClient{
     });
   };
   
-  async fast_forward_target_to_source(pr_number: number): Promise<void> {
+  async fast_forward_target_to_source_async(pr_number: number): Promise<void> {
     const pullRequestData =  await this.get_pull_request(pr_number);
 
     try{
@@ -49,7 +49,7 @@ export class GitHubClientWrapper implements GitHubClient{
 
   };
 
-  async close_pull_request(pr_number: number): Promise<void> {
+  async close_pull_request_async(pr_number: number): Promise<void> {
     await this.restClient.pulls.update({
       owner: this.owner,
       repo: this.repo,

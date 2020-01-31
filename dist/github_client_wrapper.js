@@ -52,7 +52,7 @@ var GitHubClientWrapper = /** @class */ (function () {
         return this.context.payload.issue.number;
     };
     ;
-    GitHubClientWrapper.prototype.comment_on_pull_request = function (pr_number, comment) {
+    GitHubClientWrapper.prototype.comment_on_pull_request_async = function (pr_number, comment) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -70,7 +70,7 @@ var GitHubClientWrapper = /** @class */ (function () {
         });
     };
     ;
-    GitHubClientWrapper.prototype.fast_forward_target_to_source = function (pr_number) {
+    GitHubClientWrapper.prototype.fast_forward_target_to_source_async = function (pr_number) {
         return __awaiter(this, void 0, void 0, function () {
             var pullRequestData, error_1;
             return __generator(this, function (_a) {
@@ -102,7 +102,7 @@ var GitHubClientWrapper = /** @class */ (function () {
         });
     };
     ;
-    GitHubClientWrapper.prototype.close_pull_request = function (pr_number) {
+    GitHubClientWrapper.prototype.close_pull_request_async = function (pr_number) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {

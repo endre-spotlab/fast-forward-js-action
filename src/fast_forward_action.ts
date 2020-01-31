@@ -8,19 +8,28 @@ export class FastForwardAction{
 
   execute(client: GitHubClient, successMessage: string, failureMessage: string, closePRWhenFailed: boolean): void{
     const pr_number = client.get_current_pull_request_number();
-    
+
     try{
-      client.fast_forward_target_to_source(pr_number);
+      ( async () => 
+        await client.fast_forward_target_to_source_async(pr_number) 
+      )();
+
     } catch(error){
-      client.comment_on_pull_request(pr_number,failureMessage);
+      ( async () => 
+        await client.comment_on_pull_request_async(pr_number,failureMessage)
+      )();
+
       if (closePRWhenFailed) {
-        client.close_pull_request(pr_number);
+        (async () => 
+          await client.close_pull_request_async(pr_number)
+        )();
       }
       return;
     }
 
-    client.comment_on_pull_request(pr_number, successMessage);
-
+    ( async () =>
+      await client.comment_on_pull_request_async(pr_number, successMessage)
+    )();
   }
 
 };
