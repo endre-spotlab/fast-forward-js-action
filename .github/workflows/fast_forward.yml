@@ -11,7 +11,7 @@ jobs:
       # Run the example action
       - name: Fast Forward action
         id: ff-action
-        uses:  endre-spotlab/fast-forward-js-action@v1
+        uses:  endre-spotlab/fast-forward-js-action@1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
