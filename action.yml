@@ -1,0 +1,11 @@
+name: 'Fast Forward'
+description: 'Fast Forward pull reaquest base (target) branch reference to head (source)'
+inputs:
+  in-value:
+    description: 'in value'
+outputs:
+  out-value:
+    description: 'out value'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

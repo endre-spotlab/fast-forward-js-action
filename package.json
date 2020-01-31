@@ -1,0 +1,24 @@
+{
+  "name": "fast-forward-js-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/endre-spotlab/fast-forward-js-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/endre-spotlab/fast-forward-js-action/issues"
+  },
+  "homepage": "https://github.com/endre-spotlab/fast-forward-js-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.2",
+    "@actions/github": "^2.1.0"
+  }
+}
