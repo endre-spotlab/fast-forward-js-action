@@ -16,4 +16,4 @@ jobs:
           in-value: 'Endre Input Value'
       # Use the output from the previous step
       - name: Get the output time
-        run: echo "The time was ${{ steps.ff-actions.outputs.out-value }}"
+        run: echo "The time was ${{ steps.ff-action.outputs.out-value }}"
