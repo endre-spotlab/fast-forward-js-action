@@ -47,7 +47,7 @@ var core = __importStar(require("@actions/core"));
 var github = __importStar(require("@actions/github"));
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var inValue, time, context, contextPayloadJson, github_token, octokit_restClient, pr, prJson, updateRef, updateRefJson, newComment, newCommentJson, error_1;
+        var inValue, time, context, contextPayloadJson, github_token, octokit_restClient, pr, prJson, refFQ, updateRef, updateRefJson, newComment, newCommentJson, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -78,13 +78,14 @@ function run() {
                     core.info("*** MY INFO LOGS *** Get Pull Request response");
                     prJson = JSON.stringify(pr.data, undefined, 2);
                     core.info(prJson);
+                    refFQ = "refs/heads/" + pr.data.base.ref;
                     core.info("*** MY INFO LOGS *** Update Ref Request");
-                    core.info("\nRef: " + pr.data.base.ref +
+                    core.info("\nRef: " + refFQ +
                         "\nSha: " + pr.data.head.sha);
                     return [4 /*yield*/, octokit_restClient.git.updateRef({
                             owner: context.repo.owner,
                             repo: context.repo.repo,
-                            ref: "refs/heads/" + pr.data.base.ref,
+                            ref: refFQ,
                             sha: pr.data.head.sha,
                             force: false
                         })];

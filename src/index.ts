@@ -33,14 +33,15 @@ async function run(): Promise<void>{
     const prJson = JSON.stringify(pr.data, undefined, 2);
     core.info(prJson);
 
+    const refFQ = `refs/heads/${pr.data.base.ref}`;
     core.info("*** MY INFO LOGS *** Update Ref Request")
-    core.info("\nRef: " + pr.data.base.ref + 
+    core.info("\nRef: " + refFQ + 
               "\nSha: " + pr.data.head.sha
     );
     const updateRef = await octokit_restClient.git.updateRef({
       owner: context.repo.owner,
       repo: context.repo.repo,
-      ref: "refs/heads/" + pr.data.base.ref,
+      ref: refFQ,
       sha: pr.data.head.sha,
       force: false
     });
