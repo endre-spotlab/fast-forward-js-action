@@ -45,6 +45,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core = __importStar(require("@actions/core"));
 var github = __importStar(require("@actions/github"));
+var github_client_wrapper_1 = require("./github_client_wrapper");
+var fast_forward_action_1 = require("./fast_forward_action");
+function newRun() {
+    return __awaiter(this, void 0, void 0, function () {
+        var close_pr, github_token, success_message, failure_message, client, fastForward;
+        return __generator(this, function (_a) {
+            close_pr = (core.getInput('close_pr') === 'true');
+            github_token = core.getInput('GITHUB_TOKEN');
+            success_message = core.getInput('success_message');
+            failure_message = core.getInput('failure_message');
+            client = new github_client_wrapper_1.GitHubClientWrapper(github.context, github_token);
+            fastForward = new fast_forward_action_1.FastForwardAction(client);
+            fastForward.execute(client, success_message, failure_message, close_pr);
+            return [2 /*return*/];
+        });
+    });
+}
 function run() {
     return __awaiter(this, void 0, void 0, function () {
         var inValue, time, context, contextPayloadJson, github_token, octokit_restClient, pr, prJson, refFQ, updateRef, error_1, updateRefJson, newComment, newCommentJson, error_2;
@@ -150,4 +167,4 @@ function run() {
     });
 }
 ;
-run();
+newRun();

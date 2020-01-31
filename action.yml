@@ -5,6 +5,12 @@ inputs:
     description: 'in value'
   GITHUB_TOKEN:
     description: 'Automatically provided token, that can be used to authenticate on behalf of the GitHub action, with permissions limited to the repository that contains your workflow'
+  success_message:
+    description: 'Will be commented on the pull request, if fast forward succeeds'
+  failure_message:
+    description: 'Will be commented on the pull request, if fast forward fails'
+  close_pr:
+    description: 'if value is true, pull request will be automatically closed in case of fast forward failure'
 outputs:
   out-value:
     description: 'out value'

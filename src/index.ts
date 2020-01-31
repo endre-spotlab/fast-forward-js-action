@@ -1,5 +1,19 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
+import { GitHubClientWrapper } from './github_client_wrapper';
+import { FastForwardAction } from './fast_forward_action';
+
+async function newRun(): Promise<void>{
+  const close_pr = (core.getInput('close_pr') === 'true');
+  const github_token = core.getInput('GITHUB_TOKEN');
+  const success_message = core.getInput('success_message');
+  const failure_message = core.getInput('failure_message');
+
+  const client = new GitHubClientWrapper(github.context , github_token);
+  const fastForward = new FastForwardAction(client);
+  fastForward.execute(client, success_message, failure_message, close_pr);
+}
+
 
 async function run(): Promise<void>{
   try {
@@ -94,4 +108,4 @@ async function run(): Promise<void>{
   }
 };
 
-run();
+newRun();
