@@ -3,6 +3,8 @@ description: 'Fast Forwards the pull request's base branch (target branch) refer
 inputs:
   in-value:
     description: 'in value'
+  GITHUB_TOKEN:
+    description: 'Automatically provided token, that can be used to authenticate on behalf of the GitHub action, with permissions limited to the repository that contains your workflow'
 outputs:
   out-value:
     description: 'out value'

@@ -5,7 +5,7 @@
 ## How to modify
 
 Change source code in src/
-Compile ts to js ```tsc --build tsconfig.json````
+Compile ts to js ```tsc --build tsconfig.json```
 Commit changes
 
 ## Inputs

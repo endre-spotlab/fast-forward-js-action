@@ -17,6 +17,7 @@ jobs:
         uses: ./
         with:
           in-value: 'Endre Input Value'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Use the output from the previous step
       - name: Get the output time
         run: echo "The time was ${{ steps.ff-action.outputs.out-value }}"
