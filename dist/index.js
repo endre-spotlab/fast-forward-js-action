@@ -47,38 +47,66 @@ var core = __importStar(require("@actions/core"));
 var github = __importStar(require("@actions/github"));
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var inValue, time, context, github_token, octokit_restClient;
+        var inValue, time, context, contextPayloadJson, github_token, octokit_restClient, pr, prJson, updateRef, updateRefJson, newComment, newCommentJson, error_1;
         return __generator(this, function (_a) {
-            try {
-                inValue = core.getInput('in-value');
-                core.info(inValue);
-                time = (new Date()).toTimeString();
-                core.info(time);
-                core.setOutput('out-value', time);
-                context = github.context;
-                //const contextPayloadJSON = JSON.stringify(context.payload, undefined, 2);
-                //core.info(contextPayloadJSON);
-                if (!context.payload.issue || !context.payload.issue.pull_request) {
-                    core.setFailed('No pull request found.');
-                    return [2 /*return*/];
-                }
-                github_token = core.getInput('GITHUB_TOKEN');
-                octokit_restClient = new github.GitHub(github_token);
-                core.info('\nOwner: ' + context.repo.owner +
-                    '\nRepo: ' + context.repo.repo +
-                    '\nIssue_number: ' + context.payload.issue.number);
-                octokit_restClient.issues.createComment({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: context.payload.issue.number,
-                    body: "Fast Forward action executed!"
-                });
-                core.info('Comment request sent!');
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 4, , 5]);
+                    core.info("*** MY INFO LOGS *** Input-Output");
+                    inValue = core.getInput('in-value');
+                    core.info(inValue);
+                    time = (new Date()).toTimeString();
+                    core.info(time);
+                    core.setOutput('out-value', time);
+                    context = github.context;
+                    if (!context.payload.issue || !context.payload.issue.pull_request) {
+                        core.setFailed('No pull request found in context');
+                        contextPayloadJson = JSON.stringify(context.payload, undefined, 2);
+                        core.error(contextPayloadJson);
+                        return [2 /*return*/];
+                    }
+                    github_token = core.getInput('GITHUB_TOKEN');
+                    octokit_restClient = new github.GitHub(github_token);
+                    return [4 /*yield*/, octokit_restClient.pulls.get({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            pull_number: context.payload.issue.number
+                        })];
+                case 1:
+                    pr = _a.sent();
+                    core.info("*** MY INFO LOGS *** Get Pull Request response");
+                    prJson = JSON.stringify(pr, undefined, 2);
+                    core.info(prJson);
+                    return [4 /*yield*/, octokit_restClient.git.updateRef({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            ref: pr.data.base.ref,
+                            sha: pr.data.head.sha,
+                            force: false
+                        })];
+                case 2:
+                    updateRef = _a.sent();
+                    core.info("*** MY INFO LOGS *** Update Ref Response");
+                    updateRefJson = JSON.stringify(updateRef, undefined, 2);
+                    core.info(updateRefJson);
+                    return [4 /*yield*/, octokit_restClient.issues.createComment({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            issue_number: context.payload.issue.number,
+                            body: "Fast Forward action executed!"
+                        })];
+                case 3:
+                    newComment = _a.sent();
+                    core.info("*** MY INFO LOGS *** Create Comment Response");
+                    newCommentJson = JSON.stringify(newComment, undefined, 2);
+                    core.info(newCommentJson);
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _a.sent();
+                    core.error(error_1.message);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
-            catch (error) {
-                core.error(error.message);
-            }
-            return [2 /*return*/];
         });
     });
 }
