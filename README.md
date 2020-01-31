@@ -4,12 +4,6 @@ Fast Forwards pull request base branch (target branch) reference to the head bra
 
 ```git checkout target_base && git merge source_head --ff-only```
 
-## How to modify action
-
-- Change source code in src/
-- Compile ts to js ```tsc --build tsconfig.json```
-- Commit changes
-
 ## Inputs
 
 - GITHUB_TOKEN:
@@ -23,5 +17,14 @@ Fast Forwards pull request base branch (target branch) reference to the head bra
 
 ## Example usage
 
+- Comment ```/fast-forward´´´ in a pull request.
+- Wait for the action to execute (~10 seconds)
 
-See in .github/workflows/
+To set-up this GitHub action in your repository, check out the example workflow description file in .github/workflows/
+
+
+## How to modify action
+
+- Change source code in src/
+- Compile ts to js ```tsc --build tsconfig.json```
+- Commit changes
