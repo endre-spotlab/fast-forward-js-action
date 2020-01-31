@@ -49,26 +49,29 @@ var FastForwardAction = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         pr_number = client.get_current_pull_request_number();
-                        _a.label = 1;
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "Action Execution Started!")];
                     case 1:
-                        _a.trys.push([1, 3, , 7]);
-                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
-                    case 2:
                         _a.sent();
-                        return [3 /*break*/, 7];
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, , 8]);
+                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
                     case 3:
+                        _a.sent();
+                        return [3 /*break*/, 8];
+                    case 4:
                         error_1 = _a.sent();
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, failureMessage)];
-                    case 4:
-                        _a.sent();
-                        if (!closePRWhenFailed) return [3 /*break*/, 6];
-                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
                     case 5:
                         _a.sent();
-                        _a.label = 6;
-                    case 6: return [2 /*return*/];
-                    case 7: return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, successMessage)];
-                    case 8:
+                        if (!closePRWhenFailed) return [3 /*break*/, 7];
+                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7: return [2 /*return*/];
+                    case 8: return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, successMessage)];
+                    case 9:
                         _a.sent();
                         return [2 /*return*/];
                 }
