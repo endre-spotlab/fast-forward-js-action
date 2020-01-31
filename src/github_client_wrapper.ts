@@ -54,6 +54,17 @@ export class GitHubClientWrapper implements GitHubClient{
     });
   };
 
+  async get_pull_request_source_head_async(pr_number: number): Promise<string> {
+    const pullRequestData =  await this.get_pull_request(pr_number);
+    return pullRequestData.head.ref;
+  }
+
+  async get_pull_request_target_base_async(pr_number: number): Promise<string> {
+    const pullRequestData =  await this.get_pull_request(pr_number);
+    return pullRequestData.base.ref;
+  }
+
+
   async get_pull_request(pr_number: number): Promise<Octokit.PullsGetResponse> {
     const getPrResponse = await this.restClient.pulls.get({
       owner: this.owner,

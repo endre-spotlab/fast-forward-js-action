@@ -111,6 +111,32 @@ var GitHubClientWrapper = /** @class */ (function () {
         });
     };
     ;
+    GitHubClientWrapper.prototype.get_pull_request_source_head_async = function (pr_number) {
+        return __awaiter(this, void 0, void 0, function () {
+            var pullRequestData;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get_pull_request(pr_number)];
+                    case 1:
+                        pullRequestData = _a.sent();
+                        return [2 /*return*/, pullRequestData.head.ref];
+                }
+            });
+        });
+    };
+    GitHubClientWrapper.prototype.get_pull_request_target_base_async = function (pr_number) {
+        return __awaiter(this, void 0, void 0, function () {
+            var pullRequestData;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get_pull_request(pr_number)];
+                    case 1:
+                        pullRequestData = _a.sent();
+                        return [2 /*return*/, pullRequestData.base.ref];
+                }
+            });
+        });
+    };
     GitHubClientWrapper.prototype.get_pull_request = function (pr_number) {
         return __awaiter(this, void 0, void 0, function () {
             var getPrResponse;

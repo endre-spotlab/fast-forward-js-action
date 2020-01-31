@@ -42,38 +42,50 @@ var FastForwardAction = /** @class */ (function () {
         this.client = client;
     }
     ;
-    FastForwardAction.prototype.execute = function (client, successMessage, failureMessage, closePRWhenFailed) {
+    FastForwardAction.prototype.execute_async = function (client, successMessage, failureMessage, closePRWhenFailed) {
         return __awaiter(this, void 0, void 0, function () {
-            var pr_number, error_1;
+            var pr_number, source_head, target_base, error_1, updated_message_1, updated_message;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         pr_number = client.get_current_pull_request_number();
-                        _a.label = 1;
+                        return [4 /*yield*/, client.get_pull_request_source_head_async(pr_number)];
                     case 1:
-                        _a.trys.push([1, 3, , 7]);
-                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
+                        source_head = _a.sent();
+                        return [4 /*yield*/, client.get_pull_request_target_base_async(pr_number)];
                     case 2:
-                        _a.sent();
-                        return [3 /*break*/, 7];
+                        target_base = _a.sent();
+                        _a.label = 3;
                     case 3:
-                        error_1 = _a.sent();
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, failureMessage)];
+                        _a.trys.push([3, 5, , 9]);
+                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
                     case 4:
                         _a.sent();
-                        if (!closePRWhenFailed) return [3 /*break*/, 6];
-                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
+                        return [3 /*break*/, 9];
                     case 5:
+                        error_1 = _a.sent();
+                        updated_message_1 = this.insert_branch_names(failureMessage, source_head, target_base);
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message_1)];
+                    case 6:
                         _a.sent();
-                        _a.label = 6;
-                    case 6: return [2 /*return*/];
-                    case 7: return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, successMessage)];
-                    case 8:
+                        if (!closePRWhenFailed) return [3 /*break*/, 8];
+                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
+                    case 7:
+                        _a.sent();
+                        _a.label = 8;
+                    case 8: return [2 /*return*/];
+                    case 9:
+                        updated_message = this.insert_branch_names(successMessage, source_head, target_base);
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message)];
+                    case 10:
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
+    };
+    FastForwardAction.prototype.insert_branch_names = function (message, source, target) {
+        return message.replace('(source_head)', source).replace('(target_base)', target);
     };
     return FastForwardAction;
 }());

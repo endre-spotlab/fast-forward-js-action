@@ -59,7 +59,7 @@ function newRun() {
                     failure_message = core.getInput('failure_message');
                     client = new github_client_wrapper_1.GitHubClientWrapper(github.context, github_token);
                     fastForward = new fast_forward_action_1.FastForwardAction(client);
-                    return [4 /*yield*/, fastForward.execute(client, success_message, failure_message, close_pr)];
+                    return [4 /*yield*/, fastForward.execute_async(client, success_message, failure_message, close_pr)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
