@@ -67,6 +67,7 @@ function run() {
                     }
                     github_token = core.getInput('GITHUB_TOKEN');
                     octokit_restClient = new github.GitHub(github_token);
+                    core.info("*** MY INFO LOGS *** Get Pull Request");
                     return [4 /*yield*/, octokit_restClient.pulls.get({
                             owner: context.repo.owner,
                             repo: context.repo.repo,
@@ -75,8 +76,11 @@ function run() {
                 case 1:
                     pr = _a.sent();
                     core.info("*** MY INFO LOGS *** Get Pull Request response");
-                    prJson = JSON.stringify(pr, undefined, 2);
+                    prJson = JSON.stringify(pr.data, undefined, 2);
                     core.info(prJson);
+                    core.info("*** MY INFO LOGS *** Update Ref Request");
+                    core.info("\nRef: " + pr.data.base.ref +
+                        "\nSha: " + pr.data.head.sha);
                     return [4 /*yield*/, octokit_restClient.git.updateRef({
                             owner: context.repo.owner,
                             repo: context.repo.repo,
@@ -87,7 +91,7 @@ function run() {
                 case 2:
                     updateRef = _a.sent();
                     core.info("*** MY INFO LOGS *** Update Ref Response");
-                    updateRefJson = JSON.stringify(updateRef, undefined, 2);
+                    updateRefJson = JSON.stringify(updateRef.data, undefined, 2);
                     core.info(updateRefJson);
                     return [4 /*yield*/, octokit_restClient.issues.createComment({
                             owner: context.repo.owner,
@@ -98,7 +102,7 @@ function run() {
                 case 3:
                     newComment = _a.sent();
                     core.info("*** MY INFO LOGS *** Create Comment Response");
-                    newCommentJson = JSON.stringify(newComment, undefined, 2);
+                    newCommentJson = JSON.stringify(newComment.data, undefined, 2);
                     core.info(newCommentJson);
                     return [3 /*break*/, 5];
                 case 4:
