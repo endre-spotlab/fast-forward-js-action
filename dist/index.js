@@ -84,7 +84,7 @@ function run() {
                     return [4 /*yield*/, octokit_restClient.git.updateRef({
                             owner: context.repo.owner,
                             repo: context.repo.repo,
-                            ref: pr.data.base.ref,
+                            ref: "refs/heads/" + pr.data.base.ref,
                             sha: pr.data.head.sha,
                             force: false
                         })];

@@ -40,7 +40,7 @@ async function run(): Promise<void>{
     const updateRef = await octokit_restClient.git.updateRef({
       owner: context.repo.owner,
       repo: context.repo.repo,
-      ref: pr.data.base.ref,
+      ref: "refs/heads/" + pr.data.base.ref,
       sha: pr.data.head.sha,
       force: false
     });
