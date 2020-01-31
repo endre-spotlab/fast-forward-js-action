@@ -78,7 +78,7 @@ function run() {
                     core.info("*** MY INFO LOGS *** Get Pull Request response");
                     prJson = JSON.stringify(pr.data, undefined, 2);
                     core.info(prJson);
-                    refFQ = "refs/heads/" + pr.data.base.ref;
+                    refFQ = "refs/remotes/origin/" + pr.data.base.ref;
                     core.info("*** MY INFO LOGS *** Update Ref Request");
                     core.info("\nRef: " + refFQ +
                         "\nSha: " + pr.data.head.sha);
