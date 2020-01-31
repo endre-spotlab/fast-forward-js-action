@@ -33,7 +33,8 @@ async function run(): Promise<void>{
     const prJson = JSON.stringify(pr.data, undefined, 2);
     core.info(prJson);
 
-    const refFQ = `refs/remotes/origin/${pr.data.base.ref}`;
+    //const refFQ = `refs/remotes/origin/${pr.data.base.ref}`;
+    const refFQ = `heads/${pr.data.base.ref}`;
     core.info("*** MY INFO LOGS *** Update Ref Request")
     core.info("\nRef: " + refFQ + 
               "\nSha: " + pr.data.head.sha
