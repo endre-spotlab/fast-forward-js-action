@@ -17,6 +17,8 @@ Fast Forwards pull request base branch (target branch) reference to the head bra
 
 ## Example usage
 
+![](ff-success-video.gif)
+
 - Comment ```/fast-forward´´´ in a pull request.
 - Wait for the action to execute (~10 seconds)
 
