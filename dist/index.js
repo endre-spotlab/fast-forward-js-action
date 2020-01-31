@@ -51,7 +51,7 @@ function run() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 10, , 11]);
+                    _a.trys.push([0, 11, , 12]);
                     core.info("*** MY INFO LOGS *** Input-Output");
                     inValue = core.getInput('in-value');
                     core.info(inValue);
@@ -85,7 +85,7 @@ function run() {
                     updateRef = void 0;
                     _a.label = 2;
                 case 2:
-                    _a.trys.push([2, 4, , 8]);
+                    _a.trys.push([2, 4, , 9]);
                     return [4 /*yield*/, octokit_restClient.git.updateRef({
                             owner: context.repo.owner,
                             repo: context.repo.repo,
@@ -95,10 +95,10 @@ function run() {
                         })];
                 case 3:
                     updateRef = _a.sent();
-                    return [3 /*break*/, 8];
+                    return [3 /*break*/, 9];
                 case 4:
                     error_1 = _a.sent();
-                    if (!error_1.message.includes("Update is not a fast forward")) return [3 /*break*/, 6];
+                    if (!error_1.message.includes("Update is not a fast forward")) return [3 /*break*/, 7];
                     return [4 /*yield*/, octokit_restClient.issues.createComment({
                             owner: context.repo.owner,
                             repo: context.repo.repo,
@@ -110,12 +110,21 @@ function run() {
                         })];
                 case 5:
                     _a.sent();
-                    return [2 /*return*/];
+                    core.info("*** MY INFO LOGS *** Close Pull Request");
+                    return [4 /*yield*/, octokit_restClient.pulls.update({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            pull_number: context.payload.issue.number,
+                            state: "closed"
+                        })];
                 case 6:
+                    _a.sent();
+                    return [2 /*return*/];
+                case 7:
                     core.setFailed(error_1.message);
                     return [2 /*return*/];
-                case 7: return [3 /*break*/, 8];
-                case 8:
+                case 8: return [3 /*break*/, 9];
+                case 9:
                     core.info("*** MY INFO LOGS *** Update Ref Response");
                     updateRefJson = JSON.stringify(updateRef.data, undefined, 2);
                     core.info(updateRefJson);
@@ -125,17 +134,17 @@ function run() {
                             issue_number: context.payload.issue.number,
                             body: "Success! Fast Forward action executed!"
                         })];
-                case 9:
+                case 10:
                     newComment = _a.sent();
                     core.info("*** MY INFO LOGS *** Create Comment Response");
                     newCommentJson = JSON.stringify(newComment.data, undefined, 2);
                     core.info(newCommentJson);
-                    return [3 /*break*/, 11];
-                case 10:
+                    return [3 /*break*/, 12];
+                case 11:
                     error_2 = _a.sent();
                     core.error(error_2.message);
-                    return [3 /*break*/, 11];
-                case 11: return [2 /*return*/];
+                    return [3 /*break*/, 12];
+                case 12: return [2 /*return*/];
             }
         });
     });

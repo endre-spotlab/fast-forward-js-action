@@ -59,6 +59,14 @@ async function run(): Promise<void>{
           "\n1) Pleasy try to checkout head (source) branch, and then rebase it onto base (target) branch, and recreate the Pull Request." + 
           "\n2) Or merge using 'Merge pull request' button. Then delete head (source) branch, and recreate from merged base (target) branch."
         });
+
+        core.info("*** MY INFO LOGS *** Close Pull Request")
+        await octokit_restClient.pulls.update({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          pull_number: context.payload.issue.number,
+          state: "closed"
+        });
         return;
       } 
       else {
