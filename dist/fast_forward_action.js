@@ -66,11 +66,11 @@ var FastForwardAction = /** @class */ (function () {
                         _a.sent();
                         _a.label = 6;
                     case 6:
-                        _a.trys.push([6, 8, , 13]);
+                        _a.trys.push([6, 8, , 14]);
                         return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
                     case 7:
                         _a.sent();
-                        return [3 /*break*/, 13];
+                        return [3 /*break*/, 14];
                     case 8:
                         error_1 = _a.sent();
                         return [4 /*yield*/, client.set_pull_request_status(pr_number, "failure")];
@@ -80,16 +80,19 @@ var FastForwardAction = /** @class */ (function () {
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message_1)];
                     case 10:
                         _a.sent();
-                        if (!closePRWhenFailed) return [3 /*break*/, 12];
-                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, error_1)];
                     case 11:
                         _a.sent();
-                        _a.label = 12;
-                    case 12: return [2 /*return*/];
-                    case 13:
+                        if (!closePRWhenFailed) return [3 /*break*/, 13];
+                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
+                    case 12:
+                        _a.sent();
+                        _a.label = 13;
+                    case 13: return [2 /*return*/];
+                    case 14:
                         updated_message = this.insert_branch_names(successMessage, source_head, target_base);
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message)];
-                    case 14:
+                    case 15:
                         _a.sent();
                         return [2 /*return*/];
                 }

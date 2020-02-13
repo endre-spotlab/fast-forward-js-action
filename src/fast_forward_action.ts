@@ -22,6 +22,7 @@ export class FastForwardAction{
         await client.set_pull_request_status(pr_number, "failure");
         const updated_message = this.insert_branch_names(failureMessage, source_head, target_base);
         await client.comment_on_pull_request_async(pr_number, updated_message);
+        await client.comment_on_pull_request_async(pr_number, error);
 
       if (closePRWhenFailed) {
           await client.close_pull_request_async(pr_number);
