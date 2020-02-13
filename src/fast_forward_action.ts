@@ -10,6 +10,8 @@ export class FastForwardAction{
     const pr_number = client.get_current_pull_request_number();
     const source_head = await client.get_pull_request_source_head_async(pr_number);
     const target_base = await client.get_pull_request_target_base_async(pr_number);
+    
+    await client.comment_on_pull_request_async(pr_number,"updated");
 
     try{
       await client.fast_forward_target_to_source_async(pr_number);
