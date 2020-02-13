@@ -15,7 +15,7 @@ export class FastForwardAction{
       await client.fast_forward_target_to_source_async(pr_number);
     } catch(error){
         const updated_message = this.insert_branch_names(failureMessage, source_head, target_base);
-        await client.comment_on_pull_request_async(pr_number,updated_message);
+        await client.comment_on_pull_request_async(pr_number,"failed");
 
       if (closePRWhenFailed) {
           await client.close_pull_request_async(pr_number);
@@ -24,7 +24,7 @@ export class FastForwardAction{
     }
 
     const updated_message = this.insert_branch_names(successMessage, source_head, target_base);
-    await client.comment_on_pull_request_async(pr_number, updated_message);
+    await client.comment_on_pull_request_async(pr_number, "succeeded");
 
   }
 
