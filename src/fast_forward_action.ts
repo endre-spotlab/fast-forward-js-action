@@ -12,8 +12,8 @@ export class FastForwardAction{
     const target_base = await client.get_pull_request_target_base_async(pr_number);
     
     await client.set_pull_request_status(pr_number, "pending");
-
-    await client.comment_on_pull_request_async(pr_number,"updated");
+    await client.comment_on_pull_request_async(pr_number,"trying to merge");
+    await client.set_pull_request_status(pr_number, "success");
 
     try{
       await client.fast_forward_target_to_source_async(pr_number);
@@ -27,9 +27,6 @@ export class FastForwardAction{
       }
       return;
     }
-
-    await client.set_pull_request_status(pr_number, "success");
-    await client.fast_forward_target_to_source_async(pr_number);
 
     const updated_message = this.insert_branch_names(successMessage, source_head, target_base);
     await client.comment_on_pull_request_async(pr_number, "succeeded");
