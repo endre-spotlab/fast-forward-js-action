@@ -20,7 +20,7 @@ export class FastForwardAction{
       if (closePRWhenFailed) {
           await client.close_pull_request_async(pr_number);
       }
-      return;
+      throw error;
     }
 
     const updated_message = this.insert_branch_names(successMessage, source_head, target_base);
