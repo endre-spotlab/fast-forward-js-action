@@ -11,19 +11,25 @@ export class FastForwardAction{
     const source_head = await client.get_pull_request_source_head_async(pr_number);
     const target_base = await client.get_pull_request_target_base_async(pr_number);
     
+    await client.set_pull_request_status(pr_number, "pending");
+
     await client.comment_on_pull_request_async(pr_number,"updated");
 
     try{
       await client.fast_forward_target_to_source_async(pr_number);
     } catch(error){
+        await client.set_pull_request_status(pr_number, "failure");
         const updated_message = this.insert_branch_names(failureMessage, source_head, target_base);
         await client.comment_on_pull_request_async(pr_number,"failed");
 
       if (closePRWhenFailed) {
           await client.close_pull_request_async(pr_number);
       }
-      throw error;
+      return;
     }
+
+    await client.set_pull_request_status(pr_number, "success");
+    await client.fast_forward_target_to_source_async(pr_number);
 
     const updated_message = this.insert_branch_names(successMessage, source_head, target_base);
     await client.comment_on_pull_request_async(pr_number, "succeeded");

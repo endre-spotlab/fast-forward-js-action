@@ -155,6 +155,27 @@ var GitHubClientWrapper = /** @class */ (function () {
         });
     };
     ;
+    GitHubClientWrapper.prototype.set_pull_request_status = function (pr_number, new_status) {
+        return __awaiter(this, void 0, void 0, function () {
+            var pullRequestData, statusResponse;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get_pull_request(pr_number)];
+                    case 1:
+                        pullRequestData = _a.sent();
+                        return [4 /*yield*/, this.restClient.repos.createStatus({
+                                owner: this.owner,
+                                repo: this.repo,
+                                sha: pullRequestData.head.ref,
+                                state: new_status
+                            })];
+                    case 2:
+                        statusResponse = _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     return GitHubClientWrapper;
 }());
 exports.GitHubClientWrapper = GitHubClientWrapper;

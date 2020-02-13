@@ -55,32 +55,43 @@ var FastForwardAction = /** @class */ (function () {
                         return [4 /*yield*/, client.get_pull_request_target_base_async(pr_number)];
                     case 2:
                         target_base = _a.sent();
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "updated")];
+                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "pending")];
                     case 3:
                         _a.sent();
-                        _a.label = 4;
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "updated")];
                     case 4:
-                        _a.trys.push([4, 6, , 10]);
-                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
+                        _a.sent();
+                        _a.label = 5;
                     case 5:
-                        _a.sent();
-                        return [3 /*break*/, 10];
+                        _a.trys.push([5, 7, , 12]);
+                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
                     case 6:
-                        error_1 = _a.sent();
-                        updated_message_1 = this.insert_branch_names(failureMessage, source_head, target_base);
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "failed")];
-                    case 7:
                         _a.sent();
-                        if (!closePRWhenFailed) return [3 /*break*/, 9];
-                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
+                        return [3 /*break*/, 12];
+                    case 7:
+                        error_1 = _a.sent();
+                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "failure")];
                     case 8:
                         _a.sent();
-                        _a.label = 9;
-                    case 9: throw error_1;
+                        updated_message_1 = this.insert_branch_names(failureMessage, source_head, target_base);
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "failed")];
+                    case 9:
+                        _a.sent();
+                        if (!closePRWhenFailed) return [3 /*break*/, 11];
+                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
                     case 10:
+                        _a.sent();
+                        _a.label = 11;
+                    case 11: return [2 /*return*/];
+                    case 12: return [4 /*yield*/, client.set_pull_request_status(pr_number, "success")];
+                    case 13:
+                        _a.sent();
+                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
+                    case 14:
+                        _a.sent();
                         updated_message = this.insert_branch_names(successMessage, source_head, target_base);
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "succeeded")];
-                    case 11:
+                    case 15:
                         _a.sent();
                         return [2 /*return*/];
                 }

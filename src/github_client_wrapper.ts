@@ -64,7 +64,6 @@ export class GitHubClientWrapper implements GitHubClient{
     return pullRequestData.base.ref;
   }
 
-
   async get_pull_request(pr_number: number): Promise<Octokit.PullsGetResponse> {
     const getPrResponse = await this.restClient.pulls.get({
       owner: this.owner,
@@ -74,6 +73,17 @@ export class GitHubClientWrapper implements GitHubClient{
 
     return getPrResponse.data;
   };
+
+  async set_pull_request_status(pr_number: number, new_status: "error" | "failure" | "pending" | "success"): Promise<void> {
+    const pullRequestData =  await this.get_pull_request(pr_number);
+
+    const statusResponse = await this.restClient.repos.createStatus({
+      owner: this.owner,
+      repo: this.repo,
+      sha: pullRequestData.head.ref,
+      state: new_status
+    });
+  }
 
 };
 
