@@ -1,7 +1,7 @@
 
 # Fast Forward javascript action
 
-Fast Forwards the pull request base branch (target branch) to the head branch (source branch), if possible. Comments success or failure messages on the pull request issue.
+Fast Forwards the pull request base branch (target branch) to the head branch (source branch), if possible. Comments success or failure messages on the pull request issue. Also sends commit status (success or failure), which can be used to gate merging using actions status checks.
 
 ```git checkout target_base && git merge source_head --ff-only```
 
