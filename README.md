@@ -20,6 +20,7 @@ The aim is to keep both branches the same after the fast forward, keeping a line
 
 ## Example usage
 
+
 ![](media/ff-success-video.gif)
 
 - Comment ```/fast-forward``` in a pull request.
