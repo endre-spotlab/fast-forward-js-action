@@ -17,6 +17,5 @@ jobs:
         uses:  ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          in_progress_message: 'In progress...'
           success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
-          failure_message: 'Failed!  Possible reasons: 1) Review is still required 2) Other status checks have failed 3) Cannot do a fast forward, ***source_head*** is not ahead of ***target_base***'
+          failure_message: 'Failed!  Possible reasons: 1) Review is still required 2) Cannot do a fast forward (***source_head*** is not ahead of ***target_base***) 3) Other status checks have failed '

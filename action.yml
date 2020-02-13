@@ -3,8 +3,6 @@ description: 'Fast Forwards the pull request base branch (target branch) to head
 inputs:
   GITHUB_TOKEN:
     description: 'Automatically provided token, that can be used to authenticate on behalf of the GitHub action, with permissions limited to the repository that contains your workflow'
-  in_progress_message:
-    description: 'Will be commented on pull request, before the fast forward execution attempt'
   success_message:
     description: 'Will be commented on the pull request, if fast forward succeeds'
   failure_message:
