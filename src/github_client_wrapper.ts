@@ -81,7 +81,8 @@ export class GitHubClientWrapper implements GitHubClient{
       owner: this.owner,
       repo: this.repo,
       sha: pullRequestData.head.sha,
-      state: new_status
+      state: new_status,
+      context: "Fast Forward"
     });
   }
 

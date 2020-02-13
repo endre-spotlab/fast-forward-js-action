@@ -167,7 +167,8 @@ var GitHubClientWrapper = /** @class */ (function () {
                                 owner: this.owner,
                                 repo: this.repo,
                                 sha: pullRequestData.head.sha,
-                                state: new_status
+                                state: new_status,
+                                context: "Fast Forward"
                             })];
                     case 2:
                         statusResponse = _a.sent();
