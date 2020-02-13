@@ -18,6 +18,7 @@ The aim is to keep both branches the same after the fast forward, keeping a line
 - close_pr:
   - if value is true, pull request will be automatically closed in case of fast forward failure
 
+
 ## Example usage
 
 ![](media/ff-success-video.gif)
