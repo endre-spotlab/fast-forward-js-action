@@ -33,3 +33,4 @@ To set-up this GitHub action in your repository, check out the example workflow 
 - Change source code in src/
 - Compile ts to js ```tsc --build tsconfig.json```
 - Commit changes
+
