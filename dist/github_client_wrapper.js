@@ -166,7 +166,7 @@ var GitHubClientWrapper = /** @class */ (function () {
                         return [4 /*yield*/, this.restClient.repos.createStatus({
                                 owner: this.owner,
                                 repo: this.repo,
-                                sha: pullRequestData.head.ref,
+                                sha: pullRequestData.head.sha,
                                 state: new_status
                             })];
                     case 2:

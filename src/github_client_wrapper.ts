@@ -80,7 +80,7 @@ export class GitHubClientWrapper implements GitHubClient{
     const statusResponse = await this.restClient.repos.createStatus({
       owner: this.owner,
       repo: this.repo,
-      sha: pullRequestData.head.ref,
+      sha: pullRequestData.head.sha,
       state: new_status
     });
   }
