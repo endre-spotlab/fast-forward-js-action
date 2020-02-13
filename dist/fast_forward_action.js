@@ -42,25 +42,25 @@ var FastForwardAction = /** @class */ (function () {
         this.client = client;
     }
     ;
-    FastForwardAction.prototype.execute_async = function (client, successMessage, failureMessage, closePRWhenFailed) {
+    FastForwardAction.prototype.execute_async = function (client, successMessage, failureMessage, in_progress_message, closePRWhenFailed) {
         return __awaiter(this, void 0, void 0, function () {
             var pr_number, source_head, target_base, error_1, updated_message_1, updated_message;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         pr_number = client.get_current_pull_request_number();
-                        return [4 /*yield*/, client.get_pull_request_source_head_async(pr_number)];
+                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "pending")];
                     case 1:
+                        _a.sent();
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, in_progress_message)];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, client.get_pull_request_source_head_async(pr_number)];
+                    case 3:
                         source_head = _a.sent();
                         return [4 /*yield*/, client.get_pull_request_target_base_async(pr_number)];
-                    case 2:
-                        target_base = _a.sent();
-                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "pending")];
-                    case 3:
-                        _a.sent();
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "trying to merge")];
                     case 4:
-                        _a.sent();
+                        target_base = _a.sent();
                         return [4 /*yield*/, client.set_pull_request_status(pr_number, "success")];
                     case 5:
                         _a.sent();
@@ -77,7 +77,7 @@ var FastForwardAction = /** @class */ (function () {
                     case 9:
                         _a.sent();
                         updated_message_1 = this.insert_branch_names(failureMessage, source_head, target_base);
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "failed")];
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message_1)];
                     case 10:
                         _a.sent();
                         if (!closePRWhenFailed) return [3 /*break*/, 12];
@@ -88,7 +88,7 @@ var FastForwardAction = /** @class */ (function () {
                     case 12: return [2 /*return*/];
                     case 13:
                         updated_message = this.insert_branch_names(successMessage, source_head, target_base);
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, "succeeded")];
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message)];
                     case 14:
                         _a.sent();
                         return [2 /*return*/];

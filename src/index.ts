@@ -8,11 +8,12 @@ async function run(): Promise<void>{
   const github_token = core.getInput('GITHUB_TOKEN');
   const success_message = core.getInput('success_message');
   const failure_message = core.getInput('failure_message');
+  const in_progress_message = core.getInput('in_progress_message');
 
   const client = new GitHubClientWrapper(github.context , github_token);
   const fastForward = new FastForwardAction(client);
 
-  await fastForward.execute_async(client, success_message, failure_message, close_pr);
+  await fastForward.execute_async(client, success_message, failure_message, in_progress_message, close_pr);
   
 }
 

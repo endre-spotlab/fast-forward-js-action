@@ -17,6 +17,6 @@ jobs:
         uses:  ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          in_progress_message: 'In progress...'
           success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
-          failure_message: 'Failed!  Cannot do a fast forward from ***target_base*** to ***source_head***! 1) Please try to ```git checkout source_head && git rebase target_base```. Then recreate the Pull Request. 2) Or merge using _Merge pull request_ button. Then delete ***source_head*** branch, and recreate from merged ***target_base*** branch.'
-          close_pr: 'false'
+          failure_message: 'Failed!  Possible reasons: 1) Review is still required 2) Other status checks have failed 3) Cannot do a fast forward, ***source_head*** is not ahead of ***target_base***'
