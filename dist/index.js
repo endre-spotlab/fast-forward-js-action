@@ -49,18 +49,18 @@ var github_client_wrapper_1 = require("./github_client_wrapper");
 var fast_forward_action_1 = require("./fast_forward_action");
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var close_pr, github_token, success_message, failure_message, in_progress_message, client, fastForward;
+        var github_token, success_message, failure_message, prod_branch, stage_branch, client, fastForward;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    close_pr = (core.getInput('close_pr') === 'true');
                     github_token = core.getInput('GITHUB_TOKEN');
                     success_message = core.getInput('success_message');
                     failure_message = core.getInput('failure_message');
-                    in_progress_message = core.getInput('in_progress_message');
+                    prod_branch = core.getInput('production_branch');
+                    stage_branch = core.getInput('staging_branch');
                     client = new github_client_wrapper_1.GitHubClientWrapper(github.context, github_token);
                     fastForward = new fast_forward_action_1.FastForwardAction(client);
-                    return [4 /*yield*/, fastForward.execute_async(client, success_message, failure_message, in_progress_message, close_pr)];
+                    return [4 /*yield*/, fastForward.execute_async(client, success_message, failure_message, prod_branch, stage_branch)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];

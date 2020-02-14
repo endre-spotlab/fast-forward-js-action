@@ -82,7 +82,7 @@ var GitHubClientWrapper = /** @class */ (function () {
                                 owner: this.owner,
                                 repo: this.repo,
                                 ref: "heads/" + pullRequestData.base.ref,
-                                sha: "" + pullRequestData.head.sha,
+                                sha: pullRequestData.head.sha,
                                 force: false
                             })];
                     case 2:
@@ -173,6 +173,30 @@ var GitHubClientWrapper = /** @class */ (function () {
                     case 2:
                         statusResponse = _a.sent();
                         return [2 /*return*/];
+                }
+            });
+        });
+    };
+    GitHubClientWrapper.prototype.compate_branch_head = function (branch_one, branch_two) {
+        return __awaiter(this, void 0, void 0, function () {
+            var branchOneData, branchTwoData;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.restClient.repos.getBranch({
+                            owner: this.owner,
+                            repo: this.repo,
+                            branch: branch_one
+                        })];
+                    case 1:
+                        branchOneData = _a.sent();
+                        return [4 /*yield*/, this.restClient.repos.getBranch({
+                                owner: this.owner,
+                                repo: this.repo,
+                                branch: branch_two
+                            })];
+                    case 2:
+                        branchTwoData = _a.sent();
+                        return [2 /*return*/, branchOneData.data.commit.sha === branchTwoData.data.commit.sha];
                 }
             });
         });

@@ -6,4 +6,5 @@ export interface GitHubClient {
   fast_forward_target_to_source_async(pr_number: number): Promise<void>, 
   close_pull_request_async(pr_number: number): Promise<void>,
   set_pull_request_status(pr_number: number, new_status: "error" | "failure" | "pending" | "success"): Promise<void>
+  compate_branch_head(branch_one: string, branch_two: string): Promise<boolean>
 }

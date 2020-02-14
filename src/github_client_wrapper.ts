@@ -39,7 +39,7 @@ export class GitHubClientWrapper implements GitHubClient{
       owner: this.owner,
       repo: this.repo,
       ref: `heads/${pullRequestData.base.ref}`,
-      sha: `${pullRequestData.head.sha}`,
+      sha: pullRequestData.head.sha,
       force: false
     });
 
@@ -84,6 +84,22 @@ export class GitHubClientWrapper implements GitHubClient{
       state: new_status,
       context: "Fast Forward"
     });
+  }
+
+  async compate_branch_head(branch_one: string, branch_two: string): Promise<boolean> {
+    const branchOneData = await this.restClient.repos.getBranch({
+      owner: this.owner,
+      repo: this.repo,
+      branch: branch_one
+    });
+
+    const branchTwoData = await this.restClient.repos.getBranch({
+      owner: this.owner,
+      repo: this.repo,
+      branch: branch_two
+    });
+
+    return branchOneData.data.commit.sha === branchTwoData.data.commit.sha;
   }
 
 };

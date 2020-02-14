@@ -42,9 +42,9 @@ var FastForwardAction = /** @class */ (function () {
         this.client = client;
     }
     ;
-    FastForwardAction.prototype.execute_async = function (client, successMessage, failureMessage, in_progress_message, closePRWhenFailed) {
+    FastForwardAction.prototype.execute_async = function (client, successMessage, failureMessage, prod_branch, stage_branch) {
         return __awaiter(this, void 0, void 0, function () {
-            var pr_number, source_head, target_base, error_1, updated_message_1, updated_message;
+            var pr_number, stageEqualsProd, source_head, target_base, error_1, updated_message_1, newFeatureIntegrated, featureInProgress, updated_message;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -52,41 +52,51 @@ var FastForwardAction = /** @class */ (function () {
                         return [4 /*yield*/, client.set_pull_request_status(pr_number, "pending")];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, client.get_pull_request_source_head_async(pr_number)];
+                        return [4 /*yield*/, client.compate_branch_head(prod_branch, stage_branch)];
                     case 2:
+                        stageEqualsProd = _a.sent();
+                        return [4 /*yield*/, client.get_pull_request_source_head_async(pr_number)];
+                    case 3:
                         source_head = _a.sent();
                         return [4 /*yield*/, client.get_pull_request_target_base_async(pr_number)];
-                    case 3:
+                    case 4:
                         target_base = _a.sent();
                         return [4 /*yield*/, client.set_pull_request_status(pr_number, "success")];
-                    case 4:
-                        _a.sent();
-                        _a.label = 5;
                     case 5:
-                        _a.trys.push([5, 7, , 12]);
-                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
-                    case 6:
                         _a.sent();
-                        return [3 /*break*/, 12];
+                        _a.label = 6;
+                    case 6:
+                        _a.trys.push([6, 8, , 15]);
+                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
                     case 7:
+                        _a.sent();
+                        return [3 /*break*/, 15];
+                    case 8:
                         error_1 = _a.sent();
                         return [4 /*yield*/, client.set_pull_request_status(pr_number, "failure")];
-                    case 8:
+                    case 9:
                         _a.sent();
                         updated_message_1 = this.insert_branch_names(failureMessage, source_head, target_base);
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message_1)];
-                    case 9:
-                        _a.sent();
-                        if (!closePRWhenFailed) return [3 /*break*/, 11];
-                        return [4 /*yield*/, client.close_pull_request_async(pr_number)];
                     case 10:
                         _a.sent();
-                        _a.label = 11;
-                    case 11: return [2 /*return*/];
+                        if (!stageEqualsProd) return [3 /*break*/, 12];
+                        newFeatureIntegrated = "New feature has been merged into ```" + prod_branch + "```, you need to rebase your feature branch. (Case: ```" + stage_branch + "```=```" + prod_branch + "```)";
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, newFeatureIntegrated)];
+                    case 11:
+                        _a.sent();
+                        return [3 /*break*/, 14];
                     case 12:
+                        featureInProgress = "Feature validation in progress on ```" + stage_branch + "```, you need to wait until it will be merged into ```" + prod_branch + "```, then rebase your feature branch. (Case: ```" + stage_branch + "```!=```" + prod_branch + "```)";
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, featureInProgress)];
+                    case 13:
+                        _a.sent();
+                        _a.label = 14;
+                    case 14: return [2 /*return*/];
+                    case 15:
                         updated_message = this.insert_branch_names(successMessage, source_head, target_base);
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message)];
-                    case 13:
+                    case 16:
                         _a.sent();
                         return [2 /*return*/];
                 }
