@@ -21,16 +21,16 @@ export class FastForwardAction{
       await client.fast_forward_target_to_source_async(pr_number);
     } catch(error){
         await client.set_pull_request_status(pr_number, "failure");
-        const updated_message = this.insert_branch_names(failureMessage, source_head, target_base);
-        await client.comment_on_pull_request_async(pr_number, updated_message);
+
+        let ff_fail_reason;
 
         if (stageEqualsProd){
-          const newFeatureIntegrated = `New feature has been merged into \`\`\`${prod_branch}\`\`\`, you need to rebase your feature branch. (Case: \`\`\`${stage_branch}\`\`\`=\`\`\`${prod_branch}\`\`\`)`
-          await client.comment_on_pull_request_async(pr_number, newFeatureIntegrated);
+          ff_fail_reason = `Your feature branch \`\`\`${source_head}\`\`\` is outdated. Another feature has been merged into \`\`\`${prod_branch}\`\`\` before yours. You need to rebase your feature branch (\`\`\`git checkout ${source_head} && git pull --rebase origin ${prod_branch} && git push --force\`\`\`)`
         } else {
-          const featureInProgress = `Feature validation in progress on \`\`\`${stage_branch}\`\`\`, you need to wait until it will be merged into \`\`\`${prod_branch}\`\`\`, then rebase your feature branch. (Case: \`\`\`${stage_branch}\`\`\`!=\`\`\`${prod_branch}\`\`\`)`
-          await client.comment_on_pull_request_async(pr_number, featureInProgress);
+          ff_fail_reason = `Integration is ongoing. Another feature validation is in progress and using an updated \`\`\`${stage_branch}\`\`\`. You need to wait until these changes will be merged into \`\`\`${prod_branch}\`\`\`. Then rebase your feature branch (\`\`\`git checkout ${source_head} && git pull --rebase origin ${prod_branch} && git push --force\`\`\`)`
         }
+
+        await client.comment_on_pull_request_async(pr_number, this.insert_ff_fail_reason_names(failureMessage, ff_fail_reason));
 
       return;
     }
@@ -42,6 +42,10 @@ export class FastForwardAction{
 
   insert_branch_names(message: string, source: string, target: string): string{
     return message.replace(/source_head/g, source).replace(/target_base/g, target);
+  }
+
+  insert_ff_fail_reason_names(message: string, ff_fail_reason: string): string{
+    return message.replace(/ff_fail_reason/g, ff_fail_reason);
   }
 
 };

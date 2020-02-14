@@ -44,7 +44,7 @@ var FastForwardAction = /** @class */ (function () {
     ;
     FastForwardAction.prototype.execute_async = function (client, successMessage, failureMessage, prod_branch, stage_branch) {
         return __awaiter(this, void 0, void 0, function () {
-            var pr_number, stageEqualsProd, source_head, target_base, error_1, updated_message_1, newFeatureIntegrated, featureInProgress, updated_message;
+            var pr_number, stageEqualsProd, source_head, target_base, error_1, ff_fail_reason, updated_message;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -66,37 +66,31 @@ var FastForwardAction = /** @class */ (function () {
                         _a.sent();
                         _a.label = 6;
                     case 6:
-                        _a.trys.push([6, 8, , 15]);
+                        _a.trys.push([6, 8, , 11]);
                         return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
                     case 7:
                         _a.sent();
-                        return [3 /*break*/, 15];
+                        return [3 /*break*/, 11];
                     case 8:
                         error_1 = _a.sent();
                         return [4 /*yield*/, client.set_pull_request_status(pr_number, "failure")];
                     case 9:
                         _a.sent();
-                        updated_message_1 = this.insert_branch_names(failureMessage, source_head, target_base);
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message_1)];
+                        ff_fail_reason = void 0;
+                        if (stageEqualsProd) {
+                            ff_fail_reason = "Your feature branch ```" + source_head + "``` is outdated. Another feature has been merged into ```" + prod_branch + "``` before yours. You need to rebase your feature branch (```git checkout " + source_head + " && git pull --rebase origin " + prod_branch + " && git push --force```)";
+                        }
+                        else {
+                            ff_fail_reason = "Integration is ongoing. Another feature validation is in progress and using an updated ```" + stage_branch + "```. You need to wait until these changes will be merged into ```" + prod_branch + "```. Then rebase your feature branch (```git checkout " + source_head + " && git pull --rebase origin " + prod_branch + " && git push --force```)";
+                        }
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, this.insert_ff_fail_reason_names(failureMessage, ff_fail_reason))];
                     case 10:
                         _a.sent();
-                        if (!stageEqualsProd) return [3 /*break*/, 12];
-                        newFeatureIntegrated = "New feature has been merged into ```" + prod_branch + "```, you need to rebase your feature branch. (Case: ```" + stage_branch + "```=```" + prod_branch + "```)";
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, newFeatureIntegrated)];
+                        return [2 /*return*/];
                     case 11:
-                        _a.sent();
-                        return [3 /*break*/, 14];
-                    case 12:
-                        featureInProgress = "Feature validation in progress on ```" + stage_branch + "```, you need to wait until it will be merged into ```" + prod_branch + "```, then rebase your feature branch. (Case: ```" + stage_branch + "```!=```" + prod_branch + "```)";
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, featureInProgress)];
-                    case 13:
-                        _a.sent();
-                        _a.label = 14;
-                    case 14: return [2 /*return*/];
-                    case 15:
                         updated_message = this.insert_branch_names(successMessage, source_head, target_base);
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message)];
-                    case 16:
+                    case 12:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -105,6 +99,9 @@ var FastForwardAction = /** @class */ (function () {
     };
     FastForwardAction.prototype.insert_branch_names = function (message, source, target) {
         return message.replace(/source_head/g, source).replace(/target_base/g, target);
+    };
+    FastForwardAction.prototype.insert_ff_fail_reason_names = function (message, ff_fail_reason) {
+        return message.replace(/ff_fail_reason/g, ff_fail_reason);
     };
     return FastForwardAction;
 }());
