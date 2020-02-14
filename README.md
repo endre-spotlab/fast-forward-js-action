@@ -28,6 +28,9 @@ The aim is to keep both branches the same after the fast forward, keeping a line
 To set-up this GitHub action in your repository, check out the example workflow description file in .github/workflows/
 
 
+
+
+
 ## How to modify action
 
 - Change source code in src/
