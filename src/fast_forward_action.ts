@@ -6,7 +6,7 @@ export class FastForwardAction{
     this.client = client;
   };
 
-  async execute_async(client: GitHubClient, successMessage: string, failureMessage: string, prod_branch: string, stage_branch: string): Promise<void>{
+  async execute_async(client: GitHubClient, successMessage: string, failure_message_outdated: string, failure_message_in_use: string, prod_branch: string, stage_branch: string): Promise<void>{
     const pr_number = client.get_current_pull_request_number();
     await client.set_pull_request_status(pr_number, "pending");
 
@@ -22,30 +22,20 @@ export class FastForwardAction{
     } catch(error){
         await client.set_pull_request_status(pr_number, "failure");
 
-        let ff_fail_reason;
+        const failure_message = stageEqualsProd ? failure_message_outdated : failure_message_in_use;
+        const updated_message = this.insert_branch_names(failure_message, source_head, target_base, prod_branch, stage_branch);
 
-        if (stageEqualsProd){
-          ff_fail_reason = `Your feature branch \`\`\`${source_head}\`\`\` is outdated. Another feature has been merged into \`\`\`${prod_branch}\`\`\` before yours. You need to rebase your feature branch (\`\`\`git checkout ${source_head} && git pull --rebase origin ${prod_branch} && git push --force\`\`\`)`
-        } else {
-          ff_fail_reason = `Integration is ongoing. Another feature validation is in progress and using an updated \`\`\`${stage_branch}\`\`\`. You need to wait until these changes will be merged into \`\`\`${prod_branch}\`\`\`. Then rebase your feature branch (\`\`\`git checkout ${source_head} && git pull --rebase origin ${prod_branch} && git push --force\`\`\`)`
-        }
-
-        await client.comment_on_pull_request_async(pr_number, this.insert_ff_fail_reason_names(failureMessage, ff_fail_reason));
-
+        await client.comment_on_pull_request_async(pr_number, updated_message);
       return;
     }
 
-    const updated_message = this.insert_branch_names(successMessage, source_head, target_base);
+    const updated_message = this.insert_branch_names(successMessage, source_head, target_base, prod_branch, stage_branch);
     await client.comment_on_pull_request_async(pr_number, updated_message);
 
   }
 
-  insert_branch_names(message: string, source: string, target: string): string{
-    return message.replace(/source_head/g, source).replace(/target_base/g, target);
-  }
-
-  insert_ff_fail_reason_names(message: string, ff_fail_reason: string): string{
-    return message.replace(/ff_fail_reason/g, ff_fail_reason);
+  insert_branch_names(message: string, source: string, target: string, prod_branch: string, stage_branch: string): string{
+    return message.replace(/source_head/g, source).replace(/target_base/g, target).replace(/prod_branch/g, prod_branch).replace(/stage_branch/g, stage_branch);
   }
 
 };

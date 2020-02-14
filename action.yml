@@ -4,9 +4,17 @@ inputs:
   GITHUB_TOKEN:
     description: 'Automatically provided token, that can be used to authenticate on behalf of the GitHub action, with permissions limited to the repository that contains your workflow'
   success_message:
-    description: 'Will be commented on the pull request, if fast forward succeeds'
+    description: 'Generic success message, will be commented on the pull request, if fast forward succeeds'
   failure_message:
-    description: 'Will be commented on the pull request, if fast forward fails'
+    description: 'Generic failure message, Will be commented on the pull request, if fast forward fails'
+  failure_message_outdated:
+    description: 'Optional, failure message, when pr source branch is outdated, staging and prod are ahead'
+  failure_message_in_use:
+    description: 'Optional, failure message, when staging is in use, ahead of productin'
+  production_branch:
+    description: 'Optional, production branch name'
+  staging_branch:
+    description: 'Optional, staging-preproduction branch name'
 runs:
   using: 'node12'
   main: 'dist/index.js'

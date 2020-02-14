@@ -42,9 +42,9 @@ var FastForwardAction = /** @class */ (function () {
         this.client = client;
     }
     ;
-    FastForwardAction.prototype.execute_async = function (client, successMessage, failureMessage, prod_branch, stage_branch) {
+    FastForwardAction.prototype.execute_async = function (client, successMessage, failure_message_outdated, failure_message_in_use, prod_branch, stage_branch) {
         return __awaiter(this, void 0, void 0, function () {
-            var pr_number, stageEqualsProd, source_head, target_base, error_1, ff_fail_reason, updated_message;
+            var pr_number, stageEqualsProd, source_head, target_base, error_1, failure_message, updated_message_1, updated_message;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -76,19 +76,14 @@ var FastForwardAction = /** @class */ (function () {
                         return [4 /*yield*/, client.set_pull_request_status(pr_number, "failure")];
                     case 9:
                         _a.sent();
-                        ff_fail_reason = void 0;
-                        if (stageEqualsProd) {
-                            ff_fail_reason = "Your feature branch ```" + source_head + "``` is outdated. Another feature has been merged into ```" + prod_branch + "``` before yours. You need to rebase your feature branch (```git checkout " + source_head + " && git pull --rebase origin " + prod_branch + " && git push --force```)";
-                        }
-                        else {
-                            ff_fail_reason = "Integration is ongoing. Another feature validation is in progress and using an updated ```" + stage_branch + "```. You need to wait until these changes will be merged into ```" + prod_branch + "```. Then rebase your feature branch (```git checkout " + source_head + " && git pull --rebase origin " + prod_branch + " && git push --force```)";
-                        }
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, this.insert_ff_fail_reason_names(failureMessage, ff_fail_reason))];
+                        failure_message = stageEqualsProd ? failure_message_outdated : failure_message_in_use;
+                        updated_message_1 = this.insert_branch_names(failure_message, source_head, target_base, prod_branch, stage_branch);
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message_1)];
                     case 10:
                         _a.sent();
                         return [2 /*return*/];
                     case 11:
-                        updated_message = this.insert_branch_names(successMessage, source_head, target_base);
+                        updated_message = this.insert_branch_names(successMessage, source_head, target_base, prod_branch, stage_branch);
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message)];
                     case 12:
                         _a.sent();
@@ -97,11 +92,8 @@ var FastForwardAction = /** @class */ (function () {
             });
         });
     };
-    FastForwardAction.prototype.insert_branch_names = function (message, source, target) {
-        return message.replace(/source_head/g, source).replace(/target_base/g, target);
-    };
-    FastForwardAction.prototype.insert_ff_fail_reason_names = function (message, ff_fail_reason) {
-        return message.replace(/ff_fail_reason/g, ff_fail_reason);
+    FastForwardAction.prototype.insert_branch_names = function (message, source, target, prod_branch, stage_branch) {
+        return message.replace(/source_head/g, source).replace(/target_base/g, target).replace(/prod_branch/g, prod_branch).replace(/stage_branch/g, stage_branch);
     };
     return FastForwardAction;
 }());
