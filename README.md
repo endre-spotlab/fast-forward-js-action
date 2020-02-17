@@ -7,6 +7,15 @@ Merge pull request using fast forward only, if possible, moving base branch (tar
 
 As a more advanced use case, this action can also update status API (with success or failure), which can be used to block pr when status checks are required to pass before merging. You can also have different failure messages commented on the pr issue, based on the state of a staging and a production branch.
 
+## Example usage
+
+![](media/ff-success-video.gif)
+
+- Comment ```/fast-forward``` in a pull request.
+- Wait for the action to execute (~10 seconds)
+
+To set-up this GitHub action in your repository, check out the example workflow description file in .github/workflows/. You can see one set up for the basic use case, and one for the advanced use case.
+
 ## Inputs
 
 - GITHUB_TOKEN:
@@ -25,16 +34,6 @@ As a more advanced use case, this action can also update status API (with succes
   - Optional, production branch name. Default value is master.
 - staging_branch:
   - Optional, staging or preproduction branch name. Default value is staging.
-
-## Example usage
-
-![](media/ff-success-video.gif)
-
-- Comment ```/fast-forward``` in a pull request.
-- Wait for the action to execute (~10 seconds)
-
-To set-up this GitHub action in your repository, check out the example workflow description file in .github/workflows/. You can see one set up for the basic use case, and one for the advanced use case.
-
 
 ## How to modify action
 
