@@ -1,5 +1,5 @@
 name: 'Fast Forward PR'
-description: 'Merge pull request using fast forward only, if possible, moving base branch (target branch) to head branch (source branch). Comment success or failure messages on the pull request issue. The goal is to keep branches equal at the end of the merge.'
+description: 'Merge pull request using fast forward only, if possible, moving base branch (target branch) to head branch (source branch)'
 inputs:
   GITHUB_TOKEN:
     description: 'Automatically provided token, that can be used to authenticate on behalf of the GitHub action, with permissions limited to the repository that contains your workflow'
