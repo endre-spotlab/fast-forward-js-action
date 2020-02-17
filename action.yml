@@ -17,7 +17,6 @@ inputs:
     description: 'Optional, production branch name. Default value is master.'
   staging_branch:
     description: 'Optional, staging or preproduction branch name. Default value is staging.'
-
 runs:
   using: 'node12'
   main: 'dist/index.js'
