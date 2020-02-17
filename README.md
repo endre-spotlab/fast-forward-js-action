@@ -1,23 +1,30 @@
 
-# Fast Forward javascript action
+# Fast Forward PR action
 
-Fast Forwards the pull request base branch (target branch) to the head branch (source branch), if possible. Comments success or failure messages on the pull request issue. Also sends commit status (success or failure), which can be used to gate merging using actions status checks.
+Merge pull request using fast forward only, if possible, moving base branch (target branch) to head branch (source branch). Comment success or failure messages on the pull request issue. The goal is to keep branches equal at the end of the merge.
 
 ```git checkout target_base && git merge source_head --ff-only```
 
-The aim is to keep both branches the same after the fast forward, keeping a linear history.
+As a more advanced use case, this action can also update status API (with success or failure), which can be used to block pr when status checks are required to pass before merging. You can also have different failure messages commented on the pr issue, based on the state of a staging and a production branch.
 
 ## Inputs
 
 - GITHUB_TOKEN:
   - Automatically provided token, that can be used to authenticate on behalf of the GitHub action, with permissions limited to the repository that contains your workflow
 - success_message:
-  - Will be commented on the pull request, if fast forward succeeds
+  - Generic success message, will be commented on the pull request, if pull-request fast forward succeeds
 - failure_message:
-  - Will be commented on the pull request, if fast forward fails
-- close_pr:
-  - if value is true, pull request will be automatically closed in case of fast forward failure
-
+  - Generic failure message, Will be commented on the pull request, if pull-request fast forward fails
+- update_status:
+  - Optional, if true, the status API is used to set failure or success as a state for the commit, which can be used to gate merging. Default value is false.
+- failure_message_same_stage_and_prod:
+  - Optional, failure message, when pull-request fast forward fails, and staging branch equals production branch.
+- failure_message_diff_stage_and_prod:
+  - Optional, failure message, when pull-request fast forward fails, and staging branch and production branch are at different commits
+- production_branch:
+  - Optional, production branch name. Default value is master.
+- staging_branch:
+  - Optional, staging or preproduction branch name. Default value is staging.
 
 ## Example usage
 
@@ -26,7 +33,7 @@ The aim is to keep both branches the same after the fast forward, keeping a line
 - Comment ```/fast-forward``` in a pull request.
 - Wait for the action to execute (~10 seconds)
 
-To set-up this GitHub action in your repository, check out the example workflow description file in .github/workflows/
+To set-up this GitHub action in your repository, check out the example workflow description file in .github/workflows/. You can see one set up for the basic use case, and one for the advanced use case.
 
 
 ## How to modify action

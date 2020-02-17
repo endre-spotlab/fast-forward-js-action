@@ -49,21 +49,32 @@ var github_client_wrapper_1 = require("./github_client_wrapper");
 var fast_forward_action_1 = require("./fast_forward_action");
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var github_token, success_message, failure_message, failure_message_outdated, failure_message_in_use, prod_branch, stage_branch, client, fastForward;
+        var github_token, success_message, failure_message, failure_message_same_stage_and_prod, failure_message_diff_stage_and_prod, comment_messages, update_status, set_status, prod_branch, stage_branch, client, fastForward, ff_status;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     github_token = core.getInput('GITHUB_TOKEN');
-                    success_message = core.getInput('success_message');
-                    failure_message = core.getInput('failure_message');
-                    failure_message_outdated = core.getInput('failure_message_outdated') || failure_message;
-                    failure_message_in_use = core.getInput('failure_message_in_use') || failure_message;
-                    prod_branch = core.getInput('production_branch');
-                    stage_branch = core.getInput('staging_branch');
+                    success_message = core.getInput('success_message') || "Fast-forward Succeeded!";
+                    failure_message = core.getInput('failure_message') || "Fast-forward Failed!";
+                    failure_message_same_stage_and_prod = core.getInput('failure_message_same_stage_and_prod') || failure_message;
+                    failure_message_diff_stage_and_prod = core.getInput('failure_message_diff_stage_and_prod') || failure_message;
+                    comment_messages = {
+                        success_message: success_message,
+                        failure_message: failure_message,
+                        failure_message_same_stage_and_prod: failure_message_same_stage_and_prod,
+                        failure_message_diff_stage_and_prod: failure_message_diff_stage_and_prod
+                    };
+                    update_status = core.getInput('update_status');
+                    set_status = update_status === 'true' ? true : false;
+                    prod_branch = core.getInput('production_branch') || 'master';
+                    stage_branch = core.getInput('staging_branch') || 'staging';
                     client = new github_client_wrapper_1.GitHubClientWrapper(github.context, github_token);
                     fastForward = new fast_forward_action_1.FastForwardAction(client);
-                    return [4 /*yield*/, fastForward.execute_async(client, success_message, failure_message_outdated, failure_message_in_use, prod_branch, stage_branch)];
+                    return [4 /*yield*/, fastForward.async_merge_fast_forward(client, set_status)];
                 case 1:
+                    ff_status = _a.sent();
+                    return [4 /*yield*/, fastForward.async_comment_on_pr(client, comment_messages, ff_status, prod_branch, stage_branch)];
+                case 2:
                     _a.sent();
                     return [2 /*return*/];
             }

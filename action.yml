@@ -1,20 +1,23 @@
-name: 'Fast Forward js action'
-description: 'Fast Forwards the pull request base branch (target branch) to head branch (source branch), if possible.'
+name: 'Fast Forward PR'
+description: 'Merge pull request using fast forward only, if possible, moving base branch (target branch) to head branch (source branch). Comment success or failure messages on the pull request issue. The goal is to keep branches equal at the end of the merge.'
 inputs:
   GITHUB_TOKEN:
     description: 'Automatically provided token, that can be used to authenticate on behalf of the GitHub action, with permissions limited to the repository that contains your workflow'
   success_message:
-    description: 'Generic success message, will be commented on the pull request, if fast forward succeeds'
+    description: 'Generic success message, will be commented on the pull request, if pull-request fast forward succeeds.'
   failure_message:
-    description: 'Generic failure message, Will be commented on the pull request, if fast forward fails'
-  failure_message_outdated:
-    description: 'Optional, failure message, when pr source branch is outdated, staging and prod are ahead'
-  failure_message_in_use:
-    description: 'Optional, failure message, when staging is in use, ahead of productin'
+    description: 'Generic failure message, Will be commented on the pull request, if pull-request fast forward fails.'
+  update_status:
+    description: 'Optional, if true, the status API is used to set failure or success as a state for the commit, which can be used to gate merging. Default value is false.'
+  failure_message_same_stage_and_prod:
+    description: 'Optional, failure message, when pull-request fast forward fails, and staging branch equals production branch'
+  failure_message_diff_stage_and_prod:
+    description: 'Optional, failure message, when pull-request fast forward fails, and staging branch and production branch are at different commits'
   production_branch:
-    description: 'Optional, production branch name'
+    description: 'Optional, production branch name. Default value is master.'
   staging_branch:
-    description: 'Optional, staging-preproduction branch name'
+    description: 'Optional, staging or preproduction branch name. Default value is staging.'
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

@@ -42,50 +42,75 @@ var FastForwardAction = /** @class */ (function () {
         this.client = client;
     }
     ;
-    FastForwardAction.prototype.execute_async = function (client, successMessage, failure_message_outdated, failure_message_in_use, prod_branch, stage_branch) {
+    FastForwardAction.prototype.async_merge_fast_forward = function (client, set_status) {
         return __awaiter(this, void 0, void 0, function () {
-            var pr_number, stageEqualsProd, source_head, target_base, error_1, failure_message, updated_message_1, updated_message;
+            var pr_number, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         pr_number = client.get_current_pull_request_number();
-                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "pending")];
+                        if (!set_status) return [3 /*break*/, 2];
+                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "success")];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, client.compate_branch_head(prod_branch, stage_branch)];
+                        _a.label = 2;
                     case 2:
-                        stageEqualsProd = _a.sent();
-                        return [4 /*yield*/, client.get_pull_request_source_head_async(pr_number)];
+                        _a.trys.push([2, 4, , 7]);
+                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
                     case 3:
-                        source_head = _a.sent();
-                        return [4 /*yield*/, client.get_pull_request_target_base_async(pr_number)];
+                        _a.sent();
+                        return [3 /*break*/, 7];
                     case 4:
-                        target_base = _a.sent();
-                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "success")];
+                        error_1 = _a.sent();
+                        console.log(error_1);
+                        if (!set_status) return [3 /*break*/, 6];
+                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "failure")];
                     case 5:
                         _a.sent();
                         _a.label = 6;
-                    case 6:
-                        _a.trys.push([6, 8, , 11]);
-                        return [4 /*yield*/, client.fast_forward_target_to_source_async(pr_number)];
-                    case 7:
-                        _a.sent();
-                        return [3 /*break*/, 11];
-                    case 8:
-                        error_1 = _a.sent();
-                        return [4 /*yield*/, client.set_pull_request_status(pr_number, "failure")];
-                    case 9:
-                        _a.sent();
-                        failure_message = stageEqualsProd ? failure_message_outdated : failure_message_in_use;
-                        updated_message_1 = this.insert_branch_names(failure_message, source_head, target_base, prod_branch, stage_branch);
-                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message_1)];
-                    case 10:
+                    case 6: return [2 /*return*/, false];
+                    case 7: return [2 /*return*/, true];
+                }
+            });
+        });
+    };
+    FastForwardAction.prototype.async_comment_on_pr = function (client, comment_message, ff_status, prod_branch, stage_branch) {
+        return __awaiter(this, void 0, void 0, function () {
+            var pr_number, source_head, target_base, updated_message, stageEqualsProd, error_2, failure_message, updated_message;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        pr_number = client.get_current_pull_request_number();
+                        return [4 /*yield*/, client.get_pull_request_source_head_async(pr_number)];
+                    case 1:
+                        source_head = _a.sent();
+                        return [4 /*yield*/, client.get_pull_request_target_base_async(pr_number)];
+                    case 2:
+                        target_base = _a.sent();
+                        if (!ff_status) return [3 /*break*/, 4];
+                        updated_message = this.insert_branch_names(comment_message.success_message, source_head, target_base, prod_branch, stage_branch);
+                        return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message)];
+                    case 3:
                         _a.sent();
                         return [2 /*return*/];
-                    case 11:
-                        updated_message = this.insert_branch_names(successMessage, source_head, target_base, prod_branch, stage_branch);
+                    case 4:
+                        stageEqualsProd = true;
+                        _a.label = 5;
+                    case 5:
+                        _a.trys.push([5, 7, , 8]);
+                        return [4 /*yield*/, client.compate_branch_head(prod_branch, stage_branch)];
+                    case 6:
+                        stageEqualsProd = _a.sent();
+                        return [3 /*break*/, 8];
+                    case 7:
+                        error_2 = _a.sent();
+                        console.log(error_2);
+                        return [3 /*break*/, 8];
+                    case 8:
+                        failure_message = stageEqualsProd ? comment_message.failure_message_same_stage_and_prod : comment_message.failure_message_diff_stage_and_prod;
+                        updated_message = this.insert_branch_names(failure_message, source_head, target_base, prod_branch, stage_branch);
                         return [4 /*yield*/, client.comment_on_pull_request_async(pr_number, updated_message)];
-                    case 12:
+                    case 9:
                         _a.sent();
                         return [2 /*return*/];
                 }
