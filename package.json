@@ -21,6 +21,8 @@
     "@actions/core": "^1.6.0",
     "@actions/github": "^5.0.0",
     "@actions/http-client": "^1.0.11",
-    "@octokit/rest": "^18.12.0"
+    "@octokit/plugin-rest-endpoint-methods": "^5.13.0",
+    "@octokit/rest": "^18.12.0",
+    "@octokit/types": "^6.34.0"
   }
 }
