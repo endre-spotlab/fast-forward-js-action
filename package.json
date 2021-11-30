@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/endre-spotlab/fast-forward-js-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "^2.1.0",
-    "@octokit/rest": "github:octokit/rest.js",
-    "@actions/http-client": ">=1.0.8"
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0",
+    "@actions/http-client": "^1.0.11",
+    "@octokit/rest": "^18.12.0"
   }
 }
