@@ -33,7 +33,6 @@ export class GitHubClientWrapper implements GitHubClient{
     });
   };
   
-  // TODO: make this strongly typed
   async fast_forward_target_to_source_async(pr_number: number): Promise<void> {
     const pullRequestData =  await this.get_pull_request(pr_number);
     
@@ -66,6 +65,7 @@ export class GitHubClientWrapper implements GitHubClient{
     return pullRequestData.base.ref;
   }
 
+  // TODO: make this strongly typed
   async get_pull_request(pr_number: number): Promise<any> {
     const getPrResponse: OctokitResponse<any> = await this.restClient.pulls.get({
       owner: this.owner,
