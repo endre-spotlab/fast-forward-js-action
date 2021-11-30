@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GitHubClientWrapper = void 0;
 const github_1 = require("@actions/github");
-// import { default as Octokit } from '@octokit/rest';
 class GitHubClientWrapper {
     context;
     restClient;
@@ -31,6 +30,7 @@ class GitHubClientWrapper {
         });
     }
     ;
+    // TODO: make this strongly typed
     async fast_forward_target_to_source_async(pr_number) {
         const pullRequestData = await this.get_pull_request(pr_number);
         await this.restClient.git.updateRef({
