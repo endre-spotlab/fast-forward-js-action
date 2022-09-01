@@ -17,7 +17,7 @@ jobs:
         uses:  ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
+          success_message: 'Success! Fast forwarded ***source_head*** to ***target_base***! ```git checkout target_base && git merge source_head --ff-only``` '
           failure_message: 'Failed! Cannot do fast forward!'
       # Advanced use case example
       # - name: Fast Forward PR
@@ -25,7 +25,7 @@ jobs:
       #   uses:  ./
       #   with:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
+      #     success_message: 'Success! Fast forwarded ***source_head*** to ***target_base***! ```git checkout target_base && git merge source_head --ff-only``` '
       #     failure_message: 'Failed! Cannot do fast forward!'
       #     update_status: true
       #     failure_message_same_stage_and_prod: 'Failed! Possible reasons: ***1)Your feature branch ```source_head``` is outdated***. You need to rebase ```git checkout source_head && git pull --rebase origin prod_branch && git push --force``` ***2)Review required***, pull-request is not approved ***3)Checks were not successful*** (build status check failed)'
