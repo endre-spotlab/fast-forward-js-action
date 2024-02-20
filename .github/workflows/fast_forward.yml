@@ -1,11 +1,11 @@
-on: 
+on:
   issue_comment:
     types: [created]
 
 jobs:
   fast_forward_job:
     name: Fast Forward
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/fast-forward')   
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/fast-forward')
     runs-on: ubuntu-latest
     steps:
       # To use this repository's private action, you must check out the repository
